@@ -20,7 +20,7 @@ async function redirectToAuthCodeFlow(req, res, clientId) {
 
 async function getAccessToken(req, res, clientId, code) {
   const verifier = req.session.verifier;
-  const redirect_uri = process.env.REDIRECT_URI
+  const redirect_uri = process.env.REDIRECT_URI;
 
   const params = new URLSearchParams();
   params.append("client_id", clientId);
@@ -42,8 +42,7 @@ async function getAccessToken(req, res, clientId, code) {
 // PKCE protocol uses code verifier and code challenge
 function generateCodeVerifier(length) {
   let text = "";
-  let possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }

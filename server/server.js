@@ -1,8 +1,9 @@
 const express = require("express");
 const session = require("express-session");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const { redirectToAuthCodeFlow, getAccessToken } = require("./authPKCE");
-const { access } = require("fs");
+const { fetchProfile } = require("./user");
 
 const PORT = 5000;
 dotenv.config({ path: "../.env" });
@@ -14,12 +15,19 @@ const app = express();
 app.use(
   session({
     secret: spotify_client_secret,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
   })
 );
 
-app.get("/auth/login", (req, res) => {
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+
+app.get("/auth/login", async (req, res) => {
   redirectToAuthCodeFlow(req, res, spotify_client_id);
 });
 
@@ -30,15 +38,10 @@ app.get("/auth/callback", async (req, res) => {
   }
 
   try {
-    const access_token = await getAccessToken(
-      req,
-      res,
-      spotify_client_id,
-      code
-    );
+    const access_token = await getAccessToken(req, res, spotify_client_id, code);
+    let user = await fetchProfile(access_token);
     req.session.access_token = access_token;
-    const profile = await fetchProfile(access_token);
-    req.session.username = profile.display_name;
+    req.session.user = user;
     res.redirect("/");
   } catch (error) {
     console.error("Error during callback handling: ", error);
@@ -46,22 +49,18 @@ app.get("/auth/callback", async (req, res) => {
   }
 });
 
+app.get("/auth/token", (req, res) => {
+  res.json({ access_token: req.session.access_token });
+});
+
+app.get("/user", (req, res) => {
+  res.json(req.session.user);
+});
+
 app.get("/", (req, res) => {
-  if (req.session.username) {
-    res.send("Hi, " + req.session.username);
-  } else {
-    res.send("Connect Spotify account");
-  }
+  res.send("Hello World!");
 });
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`);
 });
-
-async function fetchProfile(code) {
-  const result = await fetch("https://api.spotify.com/v1/me", {
-    method: "GET",
-    headers: { Authorization: `Bearer ${code}` },
-  });
-  return await result.json();
-}

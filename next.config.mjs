@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
+  // any /auth/* pattern will be redirected to the backend
   async rewrites() {
     return [
       {
