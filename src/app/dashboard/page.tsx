@@ -21,7 +21,8 @@ export default function Dashboard() {
       .then((response) => response.json())
       .then((data) => setUser(data))
       .catch((err) => console.log(err));
-  });
+  }, []);
+  
   return (
     <div>
       <div className="font-extrabold my-8 text-xl">Hello, {user.display_name}</div>
