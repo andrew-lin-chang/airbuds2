@@ -2,7 +2,37 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+```bash
+# inside project root folder
+npm i
+# do the same for server folder
+cd server
+npm i
+```
+
+Next, create an [Spotify developer account](https://developer.spotify.com/) if you haven't already!
+
+Follow the [Spotify Web API Getting Started Steps](https://developer.spotify.com/documentation/web-api) and grab your `Client ID` and `Client Secret` from your app settings.
+
+Then, create a `.env` file in your project root directory and add your secrets:
+
+```
+SPOTIFY_CLIENT_ID=<your-spotify-client-id>
+SPOTIFY_CLIENT_SECRET=<your-spotify-client-secret>
+REDIRECT_URI=http://localhost:3000/auth/callback
+```
+Also, make sure your Spotify app settings matches `REDIRECT_URI`.
+
+MAKE SURE TO ADD `.env` TO YOUR `.gitignore`!! Wouldn't want those API keys to be public now, would we?
+
+Now, start the backend server first:
+```bash
+cd server
+npm run dev
+```
+
+Finally, run the development server (from your project root):
 
 ```bash
 npm run dev
@@ -14,7 +44,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. YAY!
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
