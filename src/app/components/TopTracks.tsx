@@ -1,16 +1,16 @@
 "use client";
-import { error } from "console";
 import { useState, useEffect } from "react";
 
-export default function TopTracks({ user }) {
+export default function TopTracks() {
   const [tracks, setTracks] = useState({
-    items: [],
+    data: {
+      items: [],
+    },
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/toptracks", {
+    fetch("/api/top", {
       method: "GET",
-      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => setTracks(data))
@@ -19,20 +19,17 @@ export default function TopTracks({ user }) {
 
   return (
     <div className="grid grid-cols-3">
-      {tracks.items.map((item, index) => {
-        const album = item.album;
-        const cover = album.images[0]
-        return (
-          <div>
-            <img
-              key={index}
-              src={cover.url}
-              height="300px"
-              width="300px"
-            />
-          </div>
-        );
-      })}
+      {tracks.data.items &&
+        tracks.data.items.map((item, index) => {
+          //@ts-ignore
+          const album = item.album;
+          const cover = album.images[0];
+          return (
+            <div key={index}>
+              <img src={cover.url} height="300px" width="300px" />
+            </div>
+          );
+        })}
     </div>
   );
 }
