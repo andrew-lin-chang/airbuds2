@@ -2,38 +2,33 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install dependencies:
+1) Install dependencies:
 ```bash
 # inside project root folder
-npm i
-# do the same for server folder
-cd server
-npm i
+npm install 
 ```
 
-Next, create an [Spotify developer account](https://developer.spotify.com/) if you haven't already!
+2) Create an [Spotify developer account](https://developer.spotify.com/) if you haven't already!
 
 Follow the [Spotify Web API Getting Started Steps](https://developer.spotify.com/documentation/web-api) and grab your `Client ID` and `Client Secret` from your app settings.
 
-Then, create a `.env` file in your project root directory and add your secrets:
+3) Add `http://localhost:3000/api/auth/callback/spotify` under "Redirect URI" in your Spotify app settings.
 
-```
-SPOTIFY_CLIENT_ID=<your-spotify-client-id>
-SPOTIFY_CLIENT_SECRET=<your-spotify-client-secret>
-REDIRECT_URI=http://localhost:3000/auth/callback
-```
-Also, make sure your Spotify app settings matches `REDIRECT_URI`.
-
-MAKE SURE TO ADD `.env` TO YOUR `.gitignore`!! Wouldn't want those API keys to be public now, would we?
-
-Now, start the backend server first:
+4) This project uses [Auth.js](https://authjs.dev/) for authentication/signing in to Spotify. Running this should create a `.env.local` file for all of your API keys, secrets, etc. 
 ```bash
-cd server
-npm run dev
+npx auth secret
 ```
+
+5) In your `.env.local` file, add your secrets. It should look like this:
+```
+AUTH_SECRET="AUTH_SECRET"
+AUTH_SPOTIFY_ID="SPOTIFY_CLIENT_ID"
+AUTH_SPOTIFY_SECRET="SPOTIFY_CLIENT_SECRET"
+```
+
+MAKE SURE `.env.local` IS ADDED TO YOUR `.gitignore`!! Wouldn't want those API keys to be public now, would we?
 
 Finally, run the development server (from your project root):
-
 ```bash
 npm run dev
 # or

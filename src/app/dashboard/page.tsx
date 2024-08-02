@@ -1,4 +1,6 @@
+"use client"
 import { useState, useEffect } from "react";
+import TopTracks from "../components/TopTracks";
 
 export default function Dashboard() {
   const [user, setUser] = useState({
@@ -35,6 +37,7 @@ export default function Dashboard() {
           width={user.images[0].width}
         />
       </div>
+      <TopTracks user={user} />
     </div>
   );
 }
