@@ -3,7 +3,7 @@ const session = require("express-session");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { redirectToAuthCodeFlow, getAccessToken } = require("./authPKCE");
-const { fetchProfile } = require("./user");
+const { getProfile, getTopItems } = require("./user");
 
 const PORT = 5000;
 dotenv.config({ path: "../.env" });
@@ -39,7 +39,7 @@ app.get("/auth/callback", async (req, res) => {
 
   try {
     const access_token = await getAccessToken(req, res, spotify_client_id, code);
-    let user = await fetchProfile(access_token);
+    let user = await getProfile(access_token);
     req.session.access_token = access_token;
     req.session.user = user;
     res.redirect("/");
@@ -56,6 +56,16 @@ app.get("/auth/token", (req, res) => {
 app.get("/user", (req, res) => {
   res.json(req.session.user);
 });
+
+app.get("/toptracks", async (req, res) => {
+  try {
+    req.session.top_tracks = await getTopItems(req.session.access_token, "tracks")
+    res.json(req.session.top_tracks)
+  } catch (error) {
+    console.error("Error getting top tracks: ", error)
+    res.status(500).send("Internal server error")
+  }
+})
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
