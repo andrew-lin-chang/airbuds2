@@ -9,7 +9,7 @@ export default function TopTracks() {
   });
 
   useEffect(() => {
-    fetch("/api/top", {
+    fetch("/api/top/tracks", {
       method: "GET",
     })
       .then((response) => response.json())

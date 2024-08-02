@@ -10,7 +10,7 @@ export default async function App() {
     <main className="container mx-auto flex flex-col items-center justify-center">
       <h1 className="text-5xl font-extrabold my-8">Airbuds 2</h1>
       {session?.user ? (
-        <div className="flex flex-col items-center justify-center gap-4 my-8">
+        <div className="flex flex-col items-center justify-center gap-4">
           <ProfilePicture />
           <SignOut />
           <TopTracks />
