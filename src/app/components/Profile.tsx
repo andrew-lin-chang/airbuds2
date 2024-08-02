@@ -6,7 +6,7 @@ export async function ProfilePicture() {
   
   return (
     <div>
-      <img src={session.user.image} alt="User profile picture" />
+      <img className="rounded-full" src={session.user.image} alt="User profile picture" />
     </div>
   );
 }

@@ -1,15 +1,23 @@
-import { AuthButton } from "./components/AuthComponents";
+import { SignIn, SignOut } from "./components/AuthComponents";
+import { auth } from "./auth";
 import { ProfilePicture } from "./components/Profile";
+import TopTracks from "./components/TopTracks";
 
-export default function App() {
-  
+export default async function App() {
+  const session = await auth();
+
   return (
-    <main className="container mx-auto">
-      <div className="grid justify-items-center gap-4 my-8">
-        <h1 className="text-5xl font-extrabold">Airbuds 2</h1>
-        <ProfilePicture />
-        <AuthButton />
-      </div>
+    <main className="container mx-auto flex flex-col items-center justify-center">
+      <h1 className="text-5xl font-extrabold my-8">Airbuds 2</h1>
+      {session?.user ? (
+        <div className="flex flex-col items-center justify-center gap-4 my-8">
+          <ProfilePicture />
+          <SignOut />
+          <TopTracks />
+        </div>
+      ) : (
+        <SignIn />
+      )}
     </main>
   );
 }

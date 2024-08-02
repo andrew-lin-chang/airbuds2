@@ -40,8 +40,3 @@ export function SignOut() {
   );
 }
 
-export async function AuthButton() {
-  const session = await auth();
-    if (!session?.user) return <SignIn />;
-    return <SignOut />;
-}
